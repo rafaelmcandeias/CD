@@ -7,7 +7,7 @@ register_matplotlib_converters()
 # filename = 'data/algae.csv'
 # data = read_csv(filename, index_col='date', na_values='', parse_dates=True, infer_datetime_format=True)
 
-filename = '../firstDataset/NYC_collisions_tabular.csv'
+filename = '../data/firstDataset/NYC_collisions_tabular.csv'
 data = read_csv(filename, na_values='na')
 
 # Numero de colunas e linhas
