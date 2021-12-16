@@ -1,41 +1,77 @@
-from ds_charts import bar_chart
-from matplotlib.pyplot import figure, savefig, show
-from pandas import read_csv
+from ds_charts import bar_chart, get_variable_types
+from pandas import read_csv, DataFrame
 from pandas.plotting import register_matplotlib_converters
+from matplotlib.pyplot import figure, savefig, show
+
+# funcao que devolve o nome das variaveis para cada tipo
+def get_variable_types(df: DataFrame) -> dict:
+    variable_types: dict = {
+        'Numeric': [],
+        'Binary': [],
+        'Date': [],
+        'Symbolic': []
+    }
+    for c in df.columns:
+        uniques = df[c].dropna(inplace=False).unique()
+        if len(uniques) == 2:
+            variable_types['Binary'].append(c)
+            df[c].astype('bool')
+        elif df[c].dtype == 'datetime64':
+            variable_types['Date'].append(c)
+        elif df[c].dtype == 'int':
+            variable_types['Numeric'].append(c)
+        elif df[c].dtype == 'float':
+            variable_types['Numeric'].append(c)
+        else:
+            df[c].astype('category')
+            variable_types['Symbolic'].append(c)
+    return variable_types
+
 
 register_matplotlib_converters()
-# filename = 'data/algae.csv'
-# data = read_csv(filename, index_col='date', na_values='', parse_dates=True, infer_datetime_format=True)
 
-filename = '../data/firstDataset/NYC_collisions_tabular.csv'
-data = read_csv(filename, na_values='na')
+filepath = '../../data/secondDataset/air_quality_tabular.csv'
+data = read_csv(filepath, na_values='na')
 
 # Numero de colunas e linhas
-print(data.shape)
+print("Numero de linhas e colunas", data.shape)
 
-# Imprime um grafico com N de linhas e N de colunas
-# figure(figsize=(4, 2))
-# values = {'nr records': data.shape[0], 'nr variables': data.shape[1]}
-# bar_chart(list(values.keys()), list(values.values()), title='Nr of records vs nr variables')
-# savefig('images/first_dataset_records_variables.png')
-# show()
+# Cria um grafico com o numero de records (linhas) e varibles (colunas) 
+figure(figsize=(8, 8))
+values = {'nr records': data.shape[0], 'nr variables': data.shape[1]}
+bar_chart(list(values.keys()), list(values.values()), title='Nr of records vs nr variables')
+savefig('../images/dataDimensionality/seconddataset_records_variables.png')
+show()
 
-# Complexidade 
-complexidade = data.shape[0] * data.shape[1]
-print("Complexidade:", complexidade)
+# Troca o tipo de variaves simbolicas para category
+cat_vars = data.select_dtypes(include='object')
+data[cat_vars.columns] = data.select_dtypes(['object']).apply(lambda x: x.astype('category'))
+data.dtypes
 
-# Imprime tipo por variavels
+# Imprime tipo por variaveis
 print(data.dtypes)
 
-# Missing values
+# Cria grafico com o numero de variaveis por tipo binario, simbolico, data e numerico
+variable_types = get_variable_types(data)
+print(variable_types)
+counts = {}
+for tp in variable_types.keys():
+    counts[tp] = len(variable_types[tp])
+figure(figsize=(8, 8))
+bar_chart(list(counts.keys()), list(counts.values()), title='Nr of variables per type')
+savefig('../images/dataDimensionality/seconddataset_variable_types.png')
+show()
+
+# conta o numero de missing variables por variavel
 mv = {}
 for var in data:
     nr = data[var].isna().sum()
     if nr > 0:
         mv[var] = nr
 
-total = 0
-for v in mv.values():
-    total += v
-print("Missing values:", total, "%:", total/complexidade)
-
+# Cria grafico com o numero de missing variables por variavel
+figure(figsize=(8, 8))
+bar_chart(list(mv.keys()), list(mv.values()), title='Nr of missing values per variable',
+          xlabel='variables', ylabel='nr missing values', rotation=True)
+savefig('../images/dataDimensionality/seconddataset_mv.png')
+show()
