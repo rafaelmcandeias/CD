@@ -31,7 +31,7 @@ def histogram_with_distributions(ax: Axes, series: Series, var: str):
 # Start
 register_matplotlib_converters()
 filename = '../../data/secondDataset/air_quality_tabular.csv'
-data = read_csv(filename, index_col='date', na_values='', parse_dates=True, infer_datetime_format=True)
+data = read_csv(filename, index_col='FID', na_values='', parse_dates=True, infer_datetime_format=True)
 
 
 # 5 number summary min, 25%, mean, std, 50%, 75%, max
@@ -41,7 +41,7 @@ print(summary5)
 
 # Cria um grafico com os boxplots para cada variavel
 data.boxplot(rot=45)
-savefig('../images/dataDistribution/secondDataset_global_boxplot.png')
+savefig('../images/dataDistribution/air_quality_tabular_global_boxplot.png')
 show()
 
 
@@ -57,7 +57,7 @@ for n in range(len(numeric_vars)):
     axs[i, j].set_title('Boxplot for %s' % numeric_vars[n])
     axs[i, j].boxplot(data[numeric_vars[n]].dropna().values)
     i, j = (i + 1, 0) if (n+1) % cols == 0 else (i, j + 1)
-savefig('../images/dataDistribution/secondDataset_single_boxplots.png')
+savefig('../images/dataDistribution/air_quality_tabular_single_boxplots.png')
 show()
 
 
@@ -85,7 +85,7 @@ outliers = {'iqr': outliers_iqr, 'stdev': outliers_stdev}
 figure(figsize=(12, HEIGHT))
 multiple_bar_chart(numeric_vars, outliers, title='Nr of outliers per variable',
                    xlabel='variables', ylabel='nr outliers', percentage=False)
-savefig('../images/dataDistribution/secondDataset_outliers.png')
+savefig('../images/dataDistribution/air_quality_tabular_outliers.png')
 show()
 
 
@@ -103,7 +103,7 @@ for n in range(len(numeric_vars)):
     axs[i, j].set_ylabel("nr records")
     axs[i, j].hist(data[numeric_vars[n]].dropna().values, 'auto')
     i, j = (i + 1, 0) if (n+1) % cols == 0 else (i, j + 1)
-savefig('../images/dataDistribution/secondDataset_single_histograms_numeric.png')
+savefig('../images/dataDistribution/air_quality_tabular_single_histograms_numeric.png')
 show()
 
 
@@ -118,7 +118,7 @@ for n in range(len(numeric_vars)):
     axs[i, j].set_title('Histogram with trend for %s' % numeric_vars[n])
     distplot(data[numeric_vars[n]].dropna().values, norm_hist=True, ax=axs[i, j], axlabel=numeric_vars[n])
     i, j = (i + 1, 0) if (n+1) % cols == 0 else (i, j + 1)
-savefig('../images/dataDistribution/secondDataset_histograms_trend_numeric.png')
+savefig('../images/dataDistribution/air_quality_tabular_histograms_trend_numeric.png')
 show()
 
 
@@ -133,7 +133,7 @@ i, j = 0, 0
 for n in range(len(numeric_vars)):
     histogram_with_distributions(axs[i, j], data[numeric_vars[n]].dropna(), numeric_vars[n])
     i, j = (i + 1, 0) if (n+1) % cols == 0 else (i, j + 1)
-savefig('../images/dataDistribution/secondDataset_histogram_numeric_distribution.png')
+savefig('../images/dataDistribution/air_quality_tabular_histogram_numeric_distribution.png')
 show()
 
 
@@ -151,5 +151,5 @@ for n in range(len(symbolic_vars)):
     bar_chart(counts.index.to_list(), counts.values, ax=axs[i, j], title='Histogram for %s' %
               symbolic_vars[n], xlabel=symbolic_vars[n], ylabel='nr records', percentage=False)
     i, j = (i + 1, 0) if (n+1) % cols == 0 else (i, j + 1)
-savefig('../images/dataDistribution/secondDataset_histograms_symbolic.png')
+savefig('../images/dataDistribution/air_quality_tabular_histograms_symbolic.png')
 show()

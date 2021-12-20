@@ -31,7 +31,7 @@ def get_variable_types(df: DataFrame) -> dict:
 register_matplotlib_converters()
 
 filepath = '../../data/secondDataset/air_quality_tabular.csv'
-data = read_csv(filepath, na_values='na')
+data = read_csv(filepath, na_values='na', index_col='FID')
 
 # Numero de colunas e linhas
 print("Numero de linhas e colunas", data.shape)
@@ -40,7 +40,7 @@ print("Numero de linhas e colunas", data.shape)
 figure(figsize=(8, 8))
 values = {'nr records': data.shape[0], 'nr variables': data.shape[1]}
 bar_chart(list(values.keys()), list(values.values()), title='Nr of records vs nr variables')
-savefig('../images/dataDimensionality/seconddataset_records_variables.png')
+savefig('../images/dataDimensionality/air_quality_tabular_records_variables.png')
 show()
 
 # Troca o tipo de variaves simbolicas para category
@@ -59,7 +59,7 @@ for tp in variable_types.keys():
     counts[tp] = len(variable_types[tp])
 figure(figsize=(8, 8))
 bar_chart(list(counts.keys()), list(counts.values()), title='Nr of variables per type')
-savefig('../images/dataDimensionality/seconddataset_variable_types.png')
+savefig('../images/dataDimensionality/air_quality_tabular_variable_types.png')
 show()
 
 # conta o numero de missing variables por variavel
@@ -73,5 +73,5 @@ for var in data:
 figure(figsize=(8, 8))
 bar_chart(list(mv.keys()), list(mv.values()), title='Nr of missing values per variable',
           xlabel='variables', ylabel='nr missing values', rotation=True)
-savefig('../images/dataDimensionality/seconddataset_mv.png')
+savefig('../images/dataDimensionality/air_quality_tabular_mv.png')
 show()

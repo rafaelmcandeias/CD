@@ -1,0 +1,75 @@
+
+* INFO
+    Missing values strategies:
+    "Outliers data points will have a significant impact on the mean and hence, in such cases, 
+     it is not recommended to use the mean for replacing the missing values."
+    "For symmetric data distribution, one can use the mean"
+    "Dropping variables if they have a lot of missing variables"
+
+
+* FIRST DATASET
+    Feature Selection:
+        Remove
+        - CRASH DATE
+        - CRASH TIME
+        - UNIQUE_ID         usado como index
+        - COLLISION_ID
+        - PERSON_INJURY     target
+    
+    Missing values drop:
+        - var: PED_LOCATION mv: 39098               >80% missing
+        - var: CONTRIBUTING_FACTOR_2 mv: 39123      >80% missing
+        - var: CONTRIBUTING_FACTOR_1 mv: 39111      >80% missing
+        - var: PED_ACTION mv: 39098                 >80% missing
+
+    Missing values filling:
+        - var: PERSON_AGE mv: 421 
+        - var: SAFETY_EQUIPMENT mv: 6235
+        - var: EJECTION mv: 6240
+        - var: VEHICLE_ID mv: 6571
+        - var: POSITION_IN_VEHICLE mv: 6221
+    
+    Dummification:
+
+
+
+* SECOND DATASET
+    Feature Selection:
+        Remove
+        - date
+        - FID       usado como index
+        - City_EN
+        - Prov_EN
+        - ALARM     target
+
+    Missing values drop:
+        nenhuma variavel apresenta um numero atronomico de missing values que justifique o seu drop
+
+    Missing values:
+        - var: Field_1 mv: 17062
+        - var: CO_Mean mv: 7778
+        - var: CO_Min mv: 7778
+        - var: CO_Max mv: 7777
+        - var: CO_Std mv: 7778
+        - var: NO2_Mean mv: 7702
+        - var: NO2_Min mv: 7702
+        - var: NO2_Max mv: 7701
+        - var: NO2_Std mv: 7702
+        - var: O3_Mean mv: 7745
+        - var: O3_Min mv: 7745
+        - var: O3_Max mv: 7744
+        - var: O3_Std mv: 7745
+        - var: PM2.5_Mean mv: 7687
+        - var: PM2.5_Min mv: 7687
+        - var: PM2.5_Max mv: 7686
+        - var: PM2.5_Std mv: 7687
+        - var: PM10_Mean mv: 7688
+        - var: PM10_Min mv: 7688
+        - var: PM10_Max mv: 7687
+        - var: PM10_Std mv: 7688
+        - var: SO2_Mean mv: 7713
+        - var: SO2_Min mv: 7713
+        - var: SO2_Max mv: 7712
+        - var: SO2_Std mv: 7713
+    
+    Dummification:

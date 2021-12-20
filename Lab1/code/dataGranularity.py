@@ -8,10 +8,12 @@ data = read_csv(filepath)
 
 values = {'nr records': data.shape[0], 'nr variables': data.shape[1]}
 
+
 # Devolve um  erro se nao houver variaveis numericas
 variables = get_variable_types(data)['Numeric']
 if [] == variables:
     raise ValueError('There are no numeric variables.')
+
 
 # Cria um histograma para cada variavel
 rows, cols = choose_grid(len(variables))
@@ -25,6 +27,7 @@ for n in range(len(variables)):
     i, j = (i + 1, 0) if (n+1) % cols == 0 else (i, j + 1)
 savefig('../images/dataGranularity/seconddataset_granularity_single.png')
 show()
+
 
 # Cria um histograma com diferentes bins (numero de barras) para as variaveis com os histogramas mais uniformes
 variable = 'Field_1' # para a firstdataset usei o COLLISION_ID
@@ -43,12 +46,10 @@ show()
 rows = len(variables)
 bins = (10, 100, 1000)
 cols = len(bins)
-fig, axs = subplots(rows, cols, figsize=(
-    cols*HEIGHT, rows*HEIGHT), squeeze=False)
+fig, axs = subplots(rows, cols, figsize=(cols*HEIGHT, rows*HEIGHT), squeeze=False)
 for i in range(rows):
     for j in range(cols):
-        axs[i, j].set_title('Histogram for %s %d bins' %
-                            (variables[i], bins[j]))
+        axs[i, j].set_title('Histogram for %s %d bins' % (variables[i], bins[j]))
         axs[i, j].set_xlabel(variables[i])
         axs[i, j].set_ylabel('Nr records')
         axs[i, j].hist(data[variables[i]].values, bins=bins[j])
