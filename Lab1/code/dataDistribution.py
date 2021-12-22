@@ -50,8 +50,7 @@ numeric_vars = get_variable_types(data)['Numeric']
 if [] == numeric_vars:
     raise ValueError('There are no numeric variables.')
 rows, cols = choose_grid(len(numeric_vars))
-fig, axs = subplots(rows, cols, figsize=(
-    cols*HEIGHT, rows*HEIGHT), squeeze=False)
+fig, axs = subplots(rows, cols, figsize=(cols*HEIGHT, rows*HEIGHT), squeeze=False)
 i, j = 0, 0
 for n in range(len(numeric_vars)):
     axs[i, j].set_title('Boxplot for %s' % numeric_vars[n])

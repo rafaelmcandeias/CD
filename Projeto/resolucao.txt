@@ -8,13 +8,14 @@
 
 
 * FIRST DATASET
+    - UNIQUE_ID         usado como index
+    - PERSON_INJURY     target
+
     Feature Selection:
         Remove
         - CRASH DATE
         - CRASH TIME
-        - UNIQUE_ID         usado como index
         - COLLISION_ID
-        - PERSON_INJURY     target
     
     Missing values drop:
         - var: PED_LOCATION mv: 39098               >80% missing
@@ -23,53 +24,54 @@
         - var: PED_ACTION mv: 39098                 >80% missing
 
     Missing values filling:
-        - var: PERSON_AGE mv: 421 
-        - var: SAFETY_EQUIPMENT mv: 6235
-        - var: EJECTION mv: 6240
-        - var: VEHICLE_ID mv: 6571
-        - var: POSITION_IN_VEHICLE mv: 6221
+        - var: PERSON_AGE mv: 421               Média não pq tem muitos outliers (320). Mediana 
+        - var: SAFETY_EQUIPMENT mv: 6235        Symbolic, logo podemos usar most_frequent
+        - var: EJECTION mv: 6240                Symbolic, logo podemos usar most_frequent
+        - var: VEHICLE_ID mv: 6571              Média pode ser utilizada.
+        - var: POSITION_IN_VEHICLE mv: 6221     Symbolic, logo podemos usar most_frequent
     
     Dummification:
 
 
 
 * SECOND DATASET
+    - FID       usado como index
+    - ALARM     target
+    
     Feature Selection:
         Remove
         - date
-        - FID       usado como index
         - City_EN
         - Prov_EN
-        - ALARM     target
 
     Missing values drop:
-        nenhuma variavel apresenta um numero atronomico de missing values que justifique o seu drop
+        nenhuma variavel apresenta um numero astronomico de missing values que justifique o seu drop
 
     Missing values:
-        - var: Field_1 mv: 17062
-        - var: CO_Mean mv: 7778
-        - var: CO_Min mv: 7778
-        - var: CO_Max mv: 7777
-        - var: CO_Std mv: 7778
-        - var: NO2_Mean mv: 7702
-        - var: NO2_Min mv: 7702
-        - var: NO2_Max mv: 7701
-        - var: NO2_Std mv: 7702
-        - var: O3_Mean mv: 7745
-        - var: O3_Min mv: 7745
-        - var: O3_Max mv: 7744
-        - var: O3_Std mv: 7745
-        - var: PM2.5_Mean mv: 7687
-        - var: PM2.5_Min mv: 7687
-        - var: PM2.5_Max mv: 7686
-        - var: PM2.5_Std mv: 7687
-        - var: PM10_Mean mv: 7688
-        - var: PM10_Min mv: 7688
-        - var: PM10_Max mv: 7687
-        - var: PM10_Std mv: 7688
-        - var: SO2_Mean mv: 7713
-        - var: SO2_Min mv: 7713
-        - var: SO2_Max mv: 7712
-        - var: SO2_Std mv: 7713
+        - var: Field_1 mv: 17062        Sem outliers. Média
+        - var: CO_Mean mv: 7778         Varios outliers. Mediana
+        - var: CO_Min mv: 7778          Varios outliers. Mediana
+        - var: CO_Max mv: 7777          Não ha tantos outliers. Média
+        - var: CO_Std mv: 7778          Não ha tantos outliers. Média
+        - var: NO2_Mean mv: 7702        Varios outliers. Mediana
+        - var: NO2_Min mv: 7702         Varios outliers. Mediana
+        - var: NO2_Max mv: 7701         Varios outliers. Mediana
+        - var: NO2_Std mv: 7702         Varios outliers. Mediana
+        - var: O3_Mean mv: 7745         Varios outliers. Mediana   
+        - var: O3_Min mv: 7745          Varios outliers. Mediana
+        - var: O3_Max mv: 7744          Varios outliers. Mediana
+        - var: O3_Std mv: 7745          Varios outliers. Mediana
+        - var: PM2.5_Mean mv: 7687      Não ha tantos outliers. Média
+        - var: PM2.5_Min mv: 7687       Não ha tantos outliers. Média
+        - var: PM2.5_Max mv: 7686       Não ha tantos outliers. Média
+        - var: PM2.5_Std mv: 7687       Não ha tantos outliers. Média
+        - var: PM10_Mean mv: 7688       Não ha tantos outliers. Média
+        - var: PM10_Min mv: 7688        Não ha tantos outliers. Média
+        - var: PM10_Max mv: 7687        Não ha tantos outliers. Média
+        - var: PM10_Std mv: 7688        Não ha tantos outliers. Média
+        - var: SO2_Mean mv: 7713        Não ha tantos outliers. Média
+        - var: SO2_Min mv: 7713         Varios outliers. Mediana
+        - var: SO2_Max mv: 7712         Não ha tantos outliers. Média
+        - var: SO2_Std mv: 7713         Não ha tantos outliers. Média
     
     Dummification:

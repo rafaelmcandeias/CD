@@ -24,7 +24,7 @@ for i in range(len(numeric_vars)):
         axs[i, j-1].set_xlabel(var1)
         axs[i, j-1].set_ylabel(var2)
         axs[i, j-1].scatter(data[var1], data[var2])
-savefig(f'../images/dataSparsity/firstdataset_sparsity_study_numeric.png')
+savefig(f'../images/dataSparsity/NYC_collisions_sparsity_study_numeric.png')
 show()
 
 # Da erro se nao houver variaveis simbolicas
@@ -48,5 +48,5 @@ for i in range(len(symbolic_vars)):
         axs[i, j-1].set_ylabel(var2)
         axs[i, j-1].scatter(data[var1], data[var2])
 print("saving fig")
-savefig(f'../images/dataSparsity/firstdataset_sparsity_study_symbolic.png')
+savefig(f'../images/dataSparsity/NYC_collisions_sparsity_study_symbolic.png')
 show()

@@ -84,5 +84,3 @@ if len(binary_vars) > 0:
 df = concat([tmp_nr, tmp_sb, tmp_bool], axis=1)
 df.to_csv(f'../data/air_quality_tabular_mv_most_frequent.csv', index=False)
 df.describe(include='all')
-
-
