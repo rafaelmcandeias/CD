@@ -13,25 +13,30 @@
 
     Feature Selection:
         Remove
-        - CRASH DATE
-        - CRASH TIME
-        - COLLISION_ID
+        - CRASH DATE        Removido por não ter efeito no algoritmo
+        - COLLISION_ID      Removido por não ter efeito no algoritmo -> HA REPETIDOS
     
-    Missing values drop:
-        - var: PED_LOCATION mv: 39098               >80% missing
-        - var: CONTRIBUTING_FACTOR_2 mv: 39123      >80% missing
-        - var: CONTRIBUTING_FACTOR_1 mv: 39111      >80% missing
-        - var: PED_ACTION mv: 39098                 >80% missing
-
     Missing values filling:
-        - var: PERSON_AGE mv: 421               Média não pq tem muitos outliers (320). Mediana 
-        - var: SAFETY_EQUIPMENT mv: 6235        Symbolic, logo podemos usar most_frequent
-        - var: EJECTION mv: 6240                Symbolic, logo podemos usar most_frequent
+        - var: PERSON_AGE mv: 421               Mediana pq tem mtos outliers 
+        - var: SAFETY_EQUIPMENT mv: 6235        Symbolic, logo podemos usar most_frequent.
+        - var: EJECTION mv: 6240                Com dummification. 
         - var: VEHICLE_ID mv: 6571              Média pode ser utilizada.
         - var: POSITION_IN_VEHICLE mv: 6221     Symbolic, logo podemos usar most_frequent
+        - var: CONTRIBUTING_FACTOR_2 mv: 39123  As duas colunas sao associadas. Onde uma tiver unspecified 
+                                                fica com o valor da outra. Se ambas tiverem unspecified, fica o 
+                                                seu most_frequent
+        - var: CONTRIBUTING_FACTOR_1 mv: 39111  As duas colunas sao associadas. Onde uma tiver unspecified 
+                                                fica com o valor da outra. Se ambas tiverem unspecified, fica o 
+                                                seu most_frequent     
+    
+    Nothing to do:
+        - CRASH TIME                    Nao tem missing values. hora mais segura -> 16:00. hora mais perigosa -> 00:00
+        - var: PED_LOCATION mv: 39098   Nao ha missing values para Pedestrians
     
     Dummification:
-
+        - var: SAFETY_EQUIPMENT mv: 6235        Tem 17 valores possives.
+                                                Nao Dummification, se nao acrescentariamos 16 colunas ao dataset.
+        - var: EJECTION mv: 6240                Tem 4 valores possiveis. Dummification
 
 
 * SECOND DATASET
@@ -73,5 +78,8 @@
         - var: SO2_Min mv: 7713         Varios outliers. Mediana
         - var: SO2_Max mv: 7712         Não ha tantos outliers. Média
         - var: SO2_Std mv: 7713         Não ha tantos outliers. Média
+    
+    Nothing to do:
+        - var: PED_LOCATION mv: 39098           >80% missing. Mas so tem valores com ped_type = pedestrian. Nao ha missing values para pedestrians
     
     Dummification:
