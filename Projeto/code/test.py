@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.core.numerictypes import typecodes
 from ds_charts import get_variable_types, bar_chart
 from pandas import concat, DataFrame, read_csv
 import pandas as pd
@@ -15,19 +16,71 @@ data = read_csv(filepath, index_col='UNIQUE_ID', na_values='', parse_dates=True,
 df = data
 
 
+# ------------- INFO ------------------------------------------
+#print(df.info)
+
+
+# ------------- UNIQUES ---------------------------------------
+#for f in df:
+#    print(f, df[f].unique(), '\n')
+
+
+# ------------- PERSON_TYPES COM MV EM VEHICLE_ID -------------
+#vi = df['VEHICLE_ID'].values.tolist()
+#pt = df['PERSON_TYPE'].values.tolist()
+#ci = df['COLLISION_ID'].values.tolist()
+#types = set()
+#count_p, count_o = 0, 0
+#for i in range(len(vi)):
+#    if pd.isnull(vi[i]) and pt[i] == 'Pedestrian':
+#        count_p += 1
+#    if pd.isnull(vi[i]) and pt[i] == 'Occupant':
+#        count_o += 1
+#        for j in range(len(ci)):
+#            if ci[j] == ci[i]:
+#                if not pd.isnull(vi[j]):
+#                    print(vi[j])
+#print(count_p, count_o)
+
+
+# -- PEDESTRIAN AND OCCUPANT HAVE MV AND VALUES IN EJECTION ---
+#e = df['EJECTION'].values.tolist()
+#pt = df['PERSON_TYPE'].values.tolist()
+#count_p, count_o = 0, 0
+#for i in range(len(e)):
+#    if pd.isnull(e[i]) and pt[i] == 'Pedestrian':
+#        count_p += 1
+#    if pd.isnull(e[i]) and pt[i] == 'Occupant':
+#        count_o += 1
+#print(count_p, count_o)
+
+
+# ------------- PERSON_TYPES COM MV EM POSITION_IN_VEHICLE ----
+pv = df['POSITION_IN_VEHICLE'].values.tolist()
+pt = df['PERSON_TYPE'].values.tolist()
+types = set()
+count_p, count_o = 0, 0
+for i in range(len(pv)):
+    if pd.isnull(pv[i]) and pt[i] == 'Pedestrian':
+        count_p += 1
+    if pd.isnull(pv[i]) and pt[i] == 'Occupant':
+        count_o += 1
+print(count_p, count_o)
+
+
 # ------------- DESCOBRE OS PARES DE CF1 e CF2 ---------------- 
 # verificar se CONTRIBUTING_FACTOR_1 tem valores nao nulos != dos valores nao nulos do  
 #cf1 = df['CONTRIBUTING_FACTOR_1'].values.tolist()
 #cf2 = df['CONTRIBUTING_FACTOR_2'].values.tolist()
+#pt = df['PERSON_TYPE'].values.tolist()
 #diff = set()
 # cria set de tuplos com os cf1 e cf2 nao nulos nem unspecified e diferentes entre si
 #for i in range(len(cf1)):
 #    if not pd.isnull(cf1[i]) and not pd.isnull(cf2[i]) and cf1[i] != cf2[i]:
 #        if cf1[i] != 'Unspecified' and cf2[i] != 'Unspecified':
-#            diff.add((cf1[i], cf2[i]))
+#            diff.add((pt[i], cf1[i], cf2[i]))
 #for v in diff:
-    # print(v)
-#print(len(diff))
+#    print(v)
 
 
 # ------------- MV DE CF1 E CF2 PARA PEDESTRIANS --------------
@@ -61,6 +114,16 @@ df = data
 # ------------- DUMMIFICATION? --------------------------------
 #print(df['EJECTION'].unique())
 #print(len(df['SAFETY_EQUIPMENT'].unique()))
+
+
+# ------------- SAFETY EQUIPMENT EM PEDESTRIANS? ----------------------------
+#se = df['SAFETY_EQUIPMENT'].values.tolist()
+#pt = df['PERSON_TYPE'].values.tolist()
+#unique = set()
+#for i in range(len(se)):
+#    if pt[i] == 'Pedestrian':
+#        unique.add(se[i])
+#print(unique)
 
 
 
