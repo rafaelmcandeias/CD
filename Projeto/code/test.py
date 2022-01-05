@@ -56,16 +56,16 @@ df = data
 
 
 # ------------- PERSON_TYPES COM MV EM POSITION_IN_VEHICLE ----
-pv = df['POSITION_IN_VEHICLE'].values.tolist()
-pt = df['PERSON_TYPE'].values.tolist()
-types = set()
-count_p, count_o = 0, 0
-for i in range(len(pv)):
-    if pd.isnull(pv[i]) and pt[i] == 'Pedestrian':
-        count_p += 1
-    if pd.isnull(pv[i]) and pt[i] == 'Occupant':
-        count_o += 1
-print(count_p, count_o)
+#pv = df['POSITION_IN_VEHICLE'].values.tolist()
+#pt = df['PERSON_TYPE'].values.tolist()
+#types = set()
+#count_p, count_o = 0, 0
+#for i in range(len(pv)):
+#    if pd.isnull(pv[i]) and pt[i] == 'Pedestrian':
+#        count_p += 1
+#    if pd.isnull(pv[i]) and pt[i] == 'Occupant':
+#        count_o += 1
+#print(count_p, count_o)
 
 
 # ------------- DESCOBRE OS PARES DE CF1 e CF2 ---------------- 
@@ -124,6 +124,28 @@ print(count_p, count_o)
 #    if pt[i] == 'Pedestrian':
 #        unique.add(se[i])
 #print(unique)
+
+
+# ------------- MV PED_LOCATION -------------------------------
+#pl = df['PED_LOCATION'].values.tolist()
+#pt = df['PERSON_TYPE'].values.tolist()
+#print(df['PED_LOCATION'].isna().sum())
+#values = set()
+#for idx in range(len(pl)):
+#    if not pd.isnull(pl[idx]) and pt[idx] == 'Occupant':
+#        values.add(pl[idx])
+#print(values)
+
+
+# ------------- MV PED_ACTION -------------------------------
+pa = df['PED_ACTION'].values.tolist()
+pt = df['PERSON_TYPE'].values.tolist()
+print(df['PED_ACTION'].isna().sum())
+values = set()
+for idx in range(len(pa)):
+    if not pd.isnull(pa[idx]) and pt[idx] == 'Occupant':
+        values.add(pa[idx])
+print(values)
 
 
 

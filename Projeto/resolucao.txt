@@ -41,7 +41,15 @@
                                                 nao unspecified, e a outra um fator y, tambem nao unspecified. 
                                                 Nao ha maneira de priorizar e evitamos perda de info. 
                                                 Onde uma tiver unspecified fica com o valor da outra. Se ambas tiverem 
-                                                unspecified, fica o most_frequent da sua coluna.     
+                                                unspecified, fica o most_frequent da sua coluna.
+        - var: PED_LOCATION mv: 39098           Só não existem missing values para Pedestrian. Contudo existem values para
+                                                Pedestrians e Occupants, que são ({'Pedestrian/Bicyclist/Other Pedestrian 
+                                                at Intersection', 'Does Not Apply', 'Pedestrian/Bicyclist/Other Pedestrian 
+                                                Not at Intersection', 'Unknown'}), mas Occupants nao deveriam ter valores.
+                                                Assim, pôr todos os values para os que nao sao pedestrian a nan.
+        - var: PED_ACTION mv: 39098             Só existem missing values para Byciclist, Other Motorized e Occupant.
+                                                Faz sentido, não deviam tê-los. Mas Occupant tem alguns values. Por todos os
+                                                Occupant a nan.  
     
     Nothing to do:
         - var: CRASH TIME               Nao tem missing values. hora mais segura -> 16:00. hora mais perigosa -> 00:00
@@ -61,8 +69,8 @@
 
 
 * SECOND DATASET
-    - FID       usado como index
-    - ALARM     target
+    - Data, FID     usado como index
+    - ALARM         target
     
     Feature Selection:
         Remove
