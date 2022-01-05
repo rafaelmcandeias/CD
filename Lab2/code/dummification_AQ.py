@@ -7,7 +7,7 @@ import pandas as pd
 
 register_matplotlib_converters()
 file = "air_quality"
-filename = '../../data/firstDataset/NYC_collisions_tabular_no_mvs.csv'
+filename = '../../data/secondDataset/air_quality_tabular_no_mvs.csv'
 data = read_csv(filename, na_values='', parse_dates=True, infer_datetime_format=True)
 
 # Drop out all records with missing values
@@ -27,10 +27,30 @@ def dummify_OneHot(df, vars_to_dummify):
     final_df = concat([df[other_vars], dummy], axis=1)
     return final_df
 
+def dummify_Label(df, vars_to_dummify):
+    other_vars = [c for c in df.columns if not c in vars_to_dummify]
+        
+    encoder = LabelEncoder()
+    encoder.fit(df[vars_to_dummify[0]])
+    trans = encoder.transform(df[vars_to_dummify[0]])
+    dummy = DataFrame(trans, columns=['City_EN'], index=df[vars_to_dummify[0]].index)
+    dummy = dummy.convert_dtypes(convert_boolean=True)
+
+    encoder = LabelEncoder()
+    encoder.fit(df[vars_to_dummify[1]])
+    trans = encoder.transform(df[vars_to_dummify[1]])
+    dummy2 = DataFrame(trans, columns=['Prov_EN'], index=df[vars_to_dummify[1]].index)
+    dummy2 = dummy2.convert_dtypes(convert_boolean=True)
+
+    final_df = concat([df[other_vars], dummy, dummy2], axis = 1)
+    
+    return final_df
+
 # dummifies all symbolic variables
 variables = get_variable_types(data)
 symbolic_vars = variables['Symbolic']
 binary_vars = variables['Binary']
 df = dummify_OneHot(data, binary_vars)
-df.to_csv(f'../../data/firstDataset/NYC_collisions_tabular_dummified.csv', index=False)
+df = dummify_Label(df, symbolic_vars)
+df.to_csv(f'../../data/secondDataset/air_quality_tabular_dummified.csv', index=False)
 df.describe(include=[bool])

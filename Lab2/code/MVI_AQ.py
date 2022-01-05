@@ -12,19 +12,18 @@ from matplotlib.pyplot import figure, savefig
 from pandas.plotting import register_matplotlib_converters
 
 register_matplotlib_converters()
-filepath = '../../data/secondDataset/air_quality_tabular.csv'
-data = read_csv(filepath, index_col=['date', 'FID'], na_values='', parse_dates=True, infer_datetime_format=True)
-df = pd.DataFrame(data)
+filename = '../../data/secondDataset/air_quality_tabular.csv'
+data = read_csv(filename, index_col=['FID', 'date'], na_values='', parse_dates=True, infer_datetime_format=True)
 
-print("----------------------DV------------------------")
+#print("----------------------DV------------------------")
 # counts the number of different values in each column(ids have a very large number)
-for c in df.columns:
-    print(c, len(df[c].dropna(inplace=False).unique()))
+#for c in data.columns:
+    #print(c, len(data[c].dropna(inplace=False).unique()))
 
-print("----------------------MV------------------------")
+#print("----------------------MV------------------------")
 # gets missing values from each column
-for c in df.columns:
-   print(c, df[c].isna().sum())
+#for c in data.columns:
+   #print(c, data[c].isna().sum())
 
 # separate variable types
 variables = get_variable_types(data)
@@ -40,8 +39,6 @@ numeric_vars_mean = ['Field_1', 'CO_Max', 'CO_Std', 'PM2.5_Mean',
 numeric_vars_median = ['CO_Mean', 'CO_Min', 'NO2_Mean', 'NO2_Min', 'NO2_Max',
                        'NO2_Std', 'O3_Mean', 'O3_Min', 'O3_Max', 'O3_Std',
                        'SO2_Min']
-symbolic_vars = []
-binary_vars = []
 
 tmp_nr, tmp_sb, tmp_bool = None, None, None
 if len(numeric_vars_median) > 0:
@@ -58,5 +55,8 @@ if len(binary_vars) > 0:
     tmp_bool = DataFrame(imp.fit_transform(data[binary_vars]), columns=binary_vars)
 
 df = concat([tmp_median, tmp_mean, tmp_sb, tmp_bool], axis=1)
+
+df.loc[df['GbCity'] == 's', 'GbCity'] = 3412
+
 df.to_csv(f'../../data/secondDataset/air_quality_tabular_no_mvs.csv', index=False)
 df.describe(include='all')
