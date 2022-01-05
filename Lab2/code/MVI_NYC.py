@@ -21,12 +21,6 @@ for var in data:
     if nr > 0:
         mv[var] = nr
 
-# separate variable types
-variables = get_variable_types(data)
-numeric_vars = variables['Numeric']
-symbolic_vars = variables['Symbolic']
-binary_vars = variables['Binary']
-
 # Person Age uses median 
 df.loc[df['PERSON_AGE'].isna(), 'PERSON_AGE'] = df['PERSON_AGE'].dropna(inplace=False).median()
 
@@ -36,7 +30,8 @@ df.loc[df['SAFETY_EQUIPMENT'].isna() & df['BODILY_INJURY'] == "Knee-Lower Leg Fo
 df.loc[df['SAFETY_EQUIPMENT'].isna(), 'SAFETY_EQUIPMENT'] = "Lap Belt & Harness"
 
 # PERSON_SEX and PERSON_TYPE have no mvs
-nan_constant_fill = "miss"
+# NAP = not applied -> nao faz sentido ter este valor no registo
+nan_constant_fill = -1
 # PED_LOCATION and POSITION_IN_VEHICLE mvs fill
 # for PED_LOCATION we only have to fill mvs with a constant, because every mv is from when PERSON_TYPE!= Pedestrain
 df.loc[df['PED_LOCATION'].isna(), 'PED_LOCATION'] = nan_constant_fill
@@ -61,8 +56,8 @@ df.loc[df['PED_ACTION'].isna(), 'PED_ACTION'] = nan_constant_fill
 # x y, Nothing to do.
 # x na or na x = x x
 # na na = cf1.mode cf2.mode
-df.loc[df['CONTRIBUTING_FACTOR_1'].isna()] = 'Unspecified'
-df.loc[df['CONTRIBUTING_FACTOR_2'].isna()] = 'Unspecified'
+df.loc[df['CONTRIBUTING_FACTOR_1'].isna(), 'CONTRIBUTING_FACTOR_1'] = 'Unspecified'
+df.loc[df['CONTRIBUTING_FACTOR_2'].isna(), 'CONTRIBUTING_FACTOR_2'] = 'Unspecified'
 
 # Numero de missing values por variavel
 mv = {}
