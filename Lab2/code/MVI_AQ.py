@@ -58,5 +58,5 @@ if len(binary_vars) > 0:
     tmp_bool = DataFrame(imp.fit_transform(data[binary_vars]), columns=binary_vars)
 
 df = concat([tmp_median, tmp_mean, tmp_sb, tmp_bool], axis=1)
-df.to_csv(f'../../data/secondDataset/air_quality_tabular_no_mv.csv', index=False)
+df.to_csv(f'../../data/secondDataset/air_quality_tabular_no_mvs.csv', index=False)
 df.describe(include='all')
