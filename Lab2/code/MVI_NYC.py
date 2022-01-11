@@ -31,7 +31,7 @@ df.loc[df['SAFETY_EQUIPMENT'].isna(), 'SAFETY_EQUIPMENT'] = "Lap Belt & Harness"
 
 # PERSON_SEX and PERSON_TYPE have no mvs
 # NAP = not applied -> nao faz sentido ter este valor no registo
-nan_constant_fill = -1
+nan_constant_fill = 'NAP'
 # PED_LOCATION and POSITION_IN_VEHICLE mvs fill
 # for PED_LOCATION we only have to fill mvs with a constant, because every mv is from when PERSON_TYPE!= Pedestrain
 df.loc[df['PED_LOCATION'].isna(), 'PED_LOCATION'] = nan_constant_fill
@@ -48,7 +48,7 @@ df.loc[df['EJECTION'].isna(), 'EJECTION'] = nan_constant_fill
 
 #Again for VEHICLE_ID
 df.loc[df['VEHICLE_ID'].isna() & df['PERSON_TYPE'] == "Occupant", 'VEHICLE_ID'] = df['VEHICLE_ID'].dropna(inplace=False).mode()
-df.loc[df['VEHICLE_ID'].isna(), 'VEHICLE_ID'] = nan_constant_fill
+df.loc[df['VEHICLE_ID'].isna(), 'VEHICLE_ID'] = 0
 
 #PED_ACTION == nan when PERSON_TYPE != Pedestrian
 df.loc[df['PED_ACTION'].isna(), 'PED_ACTION'] = nan_constant_fill

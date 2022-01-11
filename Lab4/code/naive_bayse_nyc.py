@@ -6,7 +6,7 @@ from matplotlib.pyplot import figure, savefig
 from ds_charts import plot_evaluation_results, bar_chart
 
 file_tag = 'NYC_collisions'
-filename = '../../data/firstDataset/NYC_collisions_tabular_dummified'
+filename = '../../data/firstDataset/NYC_collisions_tabular'
 target = 'PERSON_INJURY'
 
 train: DataFrame = read_csv(f'{filename}_train.csv')
