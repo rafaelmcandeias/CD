@@ -9,51 +9,51 @@ from sklearn.model_selection import train_test_split
 file_tag = 'NYC_collisions'
 target = 'PERSON_INJURY'
 
-data = read_csv('../../data/firstDataset/NYC_collisions_tabular_dummified.csv')
-data = data.drop(['CRASH_DATE', 'CRASH_TIME'], axis=1)
-X = data.drop(target, axis=1)
-y = data[target]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-data_train = concat([X_train, y_train], axis=1)
-data_train.to_csv('../../data/firstDataset/NYC_collisions_tabular_train.csv')
-data_test = concat([X_test, y_test], axis=1)
-data_test.to_csv('../../data/firstDataset/NYC_collisions_tabular_test.csv')
+for balancing in ('undersampling', 'oversampling', 'SMOTEsampling'):
+    data = read_csv(f'../../Lab4/data/NYC_collisions_{balancing}.csv')
+    X = data.drop(target, axis=1)
+    y = data[target]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    data_train = concat([X_train, y_train], axis=1)
+    data_train.to_csv(f'../data/knn/NYC_collisions_{balancing}_train.csv')
+    data_test = concat([X_test, y_test], axis=1)
+    data_test.to_csv(f'../data/knn/NYC_collisions_tabular_test.csv')
 
-train: DataFrame = read_csv('../../data/firstDataset/NYC_collisions_tabular_train.csv')
-trnY: ndarray = train.pop(target).values
-trnX: ndarray = train.values
-labels = unique(trnY)
-labels.sort()
+    train: DataFrame = read_csv(f'../data/knn/NYC_collisions_{balancing}_train.csv')
+    trnY: ndarray = train.pop(target).values
+    trnX: ndarray = train.values
+    labels = unique(trnY)
+    labels.sort()
 
-test: DataFrame = read_csv('../../data/firstDataset/NYC_collisions_tabular_test.csv')
-tstY: ndarray = test.pop(target).values
-tstX: ndarray = test.values
+    test: DataFrame = read_csv(f'../data/knn/NYC_collisions_tabular_test.csv')
+    tstY: ndarray = test.pop(target).values
+    tstX: ndarray = test.values
 
-nvalues = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
-dist = ['manhattan', 'euclidean', 'chebyshev']
-values = {}
-best = (0, '')
-last_best = 0
-for d in dist:
-    yvalues = []
-    for n in nvalues:
-        knn = KNeighborsClassifier(n_neighbors=n, metric=d)
-        knn.fit(X_train, y_train)
-        prdY = knn.predict(X_test)
-        yvalues.append(accuracy_score(y_test, prdY))
-        if yvalues[-1] > last_best:
-            best = (n, d)
-            last_best = yvalues[-1]
-    values[d] = yvalues
+    nvalues = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+    dist = ['manhattan', 'euclidean', 'chebyshev']
+    values = {}
+    best = (0, '')
+    last_best = 0
+    for d in dist:
+        yvalues = []
+        for n in nvalues:
+            knn = KNeighborsClassifier(n_neighbors=n, metric=d)
+            knn.fit(X_train, y_train)
+            prdY = knn.predict(X_test)
+            yvalues.append(accuracy_score(y_test, prdY))
+            if yvalues[-1] > last_best:
+                best = (n, d)
+                last_best = yvalues[-1]
+        values[d] = yvalues
 
-figure()
-multiple_line_chart(nvalues, values, title='KNN variants', xlabel='n', ylabel='accuracy', percentage=True)
-savefig('../data/knn/images/NYC_collisions_knn_study.png')
-print('Best results with %d neighbors and %s' % (best[0], best[1]))
+    figure()
+    multiple_line_chart(nvalues, values, title='KNN variants', xlabel='n', ylabel='accuracy', percentage=True)
+    savefig(f'../data/knn/images/NYC_collisions_knn_study_{balancing}.png')
+    print('Best results with %d neighbors and %s' % (best[0], best[1]))
 
-clf = knn = KNeighborsClassifier(n_neighbors=best[0], metric=best[1])
-clf.fit(trnX, trnY)
-prd_trn = clf.predict(trnX)
-prd_tst = clf.predict(tstX)
-plot_evaluation_results(labels, trnY, prd_trn, tstY, prd_tst)
-savefig('../data/knn/images/NYC_collisions_knn_best.png')
+    clf = knn = KNeighborsClassifier(n_neighbors=best[0], metric=best[1])
+    clf.fit(trnX, trnY)
+    prd_trn = clf.predict(trnX)
+    prd_tst = clf.predict(tstX)
+    plot_evaluation_results(labels, trnY, prd_trn, tstY, prd_tst)
+    savefig(f'../data/knn/images/NYC_collisions_knn_best_{balancing}.png')

@@ -34,6 +34,6 @@ axs[0, 1].set_title('Z-score normalization')
 norm_data_zscore.boxplot(ax=axs[0, 1])
 axs[0, 2].set_title('MinMax normalization')
 norm_data_minmax.boxplot(ax=axs[0, 2])
-savefig('../data/scalling/images/NYC_collisions_scaled_zscore.png')
+savefig('../data/scalling/images/NYC_collisions_scaled.png')
 
 norm_data_zscore.to_csv('../data/scalling/NYC_collisions_scaled_zscore.csv', index=False)

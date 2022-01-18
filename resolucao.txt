@@ -78,7 +78,20 @@
         - var: PED_ACTION           Tem 17 valores possives.
                                     Nao Dummification, se nao acrescentariamos 16 colunas ao dataset.
                                     Nao Dummification, se nao acrescentariamos 9 colunas ao dataset
-        - var: PERSON_ID           Tem mts valores possives. tem que se passar pra int
+        - var: PERSON_ID            Tem mts valores possives. tem que se passar pra int
+    
+    Balancing:
+        undersampling:      Não pq dataset fica mt pequeno, 
+        oversampling:       Mais accurate, Ver se dá overfitting
+        SMOTE:              ver overfitting
+    
+    Scalling:
+        minmax:         Valores encontrados em novos registo que nao estão dentro dos limites dão erro
+        zscore:         Evita erros na presença de valores nao observados
+    
+    Modelo:
+        knn:
+        Naive Bayes:
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -122,6 +135,9 @@
         - var: SO2_Max mv: 7712         Não ha tantos outliers. Média
         - var: SO2_Std mv: 7713         Não ha tantos outliers. Média
     
-    Nothing to do:    
+    Nothing to do: 
+
     Dummification:
         - var: ALARM                    label pra facilitar modelo de previsao
+    
+    Balancing:
