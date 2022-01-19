@@ -4,28 +4,23 @@ from matplotlib.pyplot import figure, savefig
 from sklearn.neighbors import KNeighborsClassifier
 from ds_charts import plot_evaluation_results, multiple_line_chart
 from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
 
 file_tag = 'NYC_collisions'
 target = 'PERSON_INJURY'
 
 for balancing in ('undersampling', 'oversampling', 'SMOTEsampling'):
-    data = read_csv(f'../../Lab4/data/NYC_collisions_{balancing}.csv')
-    X = data.drop(target, axis=1)
-    y = data[target]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-    data_train = concat([X_train, y_train], axis=1)
-    data_train.to_csv(f'../data/knn/NYC_collisions_{balancing}_train.csv')
-    data_test = concat([X_test, y_test], axis=1)
-    data_test.to_csv(f'../data/knn/NYC_collisions_tabular_test.csv')
-
-    train: DataFrame = read_csv(f'../data/knn/NYC_collisions_{balancing}_train.csv')
+    
+    train: DataFrame = read_csv(f'../../Lab4/data/balancing/NYC_collisions_train_{balancing}.csv')
+    X_train = train.drop(target, axis=1)
+    y_train = train[target]
     trnY: ndarray = train.pop(target).values
     trnX: ndarray = train.values
     labels = unique(trnY)
     labels.sort()
 
-    test: DataFrame = read_csv(f'../data/knn/NYC_collisions_tabular_test.csv')
+    test: DataFrame = read_csv('../../Lab4/data/balancing/NYC_collisions_tabular_test.csv')
+    X_test = test.drop(target, axis=1)
+    y_test = test[target]
     tstY: ndarray = test.pop(target).values
     tstX: ndarray = test.values
 
@@ -48,7 +43,7 @@ for balancing in ('undersampling', 'oversampling', 'SMOTEsampling'):
 
     figure()
     multiple_line_chart(nvalues, values, title='KNN variants', xlabel='n', ylabel='accuracy', percentage=True)
-    savefig(f'../data/knn/images/NYC_collisions_knn_study_{balancing}.png')
+    savefig(f'../data/knn/images/NYC_collisions_study_{balancing}.png')
     print('Best results with %d neighbors and %s' % (best[0], best[1]))
 
     clf = knn = KNeighborsClassifier(n_neighbors=best[0], metric=best[1])
@@ -56,4 +51,4 @@ for balancing in ('undersampling', 'oversampling', 'SMOTEsampling'):
     prd_trn = clf.predict(trnX)
     prd_tst = clf.predict(tstX)
     plot_evaluation_results(labels, trnY, prd_trn, tstY, prd_tst)
-    savefig(f'../data/knn/images/NYC_collisions_knn_best_{balancing}.png')
+    savefig(f'../data/knn/images/NYC_collisions_best_{balancing}.png')
