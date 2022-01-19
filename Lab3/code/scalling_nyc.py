@@ -5,7 +5,7 @@ from ds_charts import get_variable_types
 from pandas.plotting import register_matplotlib_converters
 
 register_matplotlib_converters()
-filename = '../../data/firstDataset/NYC_collisions_tabular_dummified.csv'
+filename = '../../data/firstDataset/NYC_collisions_tabular.csv'
 data = read_csv(filename, parse_dates=True, infer_datetime_format=True)
 variable_types = get_variable_types(data)
 numeric_vars = variable_types['Numeric']

@@ -1,3 +1,4 @@
+from re import A
 import numpy as np
 from numpy.core.numerictypes import typecodes
 from ds_charts import get_variable_types, bar_chart
@@ -10,10 +11,9 @@ from pandas.plotting import register_matplotlib_converters
 
 # ------------- FIRST DATASET --------------------------------
 register_matplotlib_converters()
-filepath = '../../data/firstDataset/NYC_collisions_tabular.csv'
-data = read_csv(filepath, index_col='UNIQUE_ID', na_values='',
-                parse_dates=True, infer_datetime_format=True)
-df = data
+filepath = '../Lab4/data/balancing/NYC_collisions_train_undersampling.csv'
+data = read_csv(filepath, na_values='', parse_dates=True, infer_datetime_format=True)
+
 
 
 # ------------- INFO ------------------------------------------
@@ -138,14 +138,14 @@ df = data
 
 
 # ------------- MV PED_ACTION -------------------------------
-pa = df['PED_ACTION'].values.tolist()
-pt = df['PERSON_TYPE'].values.tolist()
-print(df['PED_ACTION'].isna().sum())
-values = set()
-for idx in range(len(pa)):
-    if not pd.isnull(pa[idx]) and pt[idx] == 'Occupant':
-        values.add(pa[idx])
-print(values)
+#pa = df['PED_ACTION'].values.tolist()
+#pt = df['PERSON_TYPE'].values.tolist()
+#print(df['PED_ACTION'].isna().sum())
+#values = set()
+#for idx in range(len(pa)):
+#    if not pd.isnull(pa[idx]) and pt[idx] == 'Occupant':
+#        values.add(pa[idx])
+#print(values)
 
 
 # ------------- SECOND DATASET --------------------------------

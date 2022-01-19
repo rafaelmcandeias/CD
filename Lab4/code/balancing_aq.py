@@ -12,9 +12,9 @@ X = data.drop(class_var, axis=1)
 y = data[class_var]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 data_train = concat([X_train, y_train], axis=1)
-data_train.to_csv('../data/balancing/air_quality_tabular_train.csv')
+data_train.to_csv('../data/balancing/air_quality_tabular_train.csv', index=False)
 data_test = concat([X_test, y_test], axis=1)
-data_test.to_csv('../data/balancing/air_quality_tabular__test.csv')
+data_test.to_csv('../data/balancing/air_quality_tabular_test.csv', index=False)
 
 original = read_csv('../data/balancing/air_quality_tabular_train.csv', sep=',', decimal='.')
 target_count = original[class_var].value_counts()

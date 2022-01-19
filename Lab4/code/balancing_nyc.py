@@ -13,9 +13,9 @@ X = X.drop(['CRASH_DATE', 'CRASH_TIME'], axis=1)
 y = data[class_var]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 data_train = concat([X_train, y_train], axis=1)
-data_train.to_csv('../data/balancing/NYC_collisions_tabular_train.csv', index = False)
+data_train.to_csv('../data/balancing/NYC_collisions_tabular_train.csv', index=False)
 data_test = concat([X_test, y_test], axis=1)
-data_test.to_csv('../data/balancing/NYC_collisions_tabular_test.csv', index= False)
+data_test.to_csv('../data/balancing/NYC_collisions_tabular_test.csv', index=False)
 
 original = read_csv('../data/balancing/NYC_collisions_tabular_train.csv', sep=',', decimal='.')
 target_count = original[class_var].value_counts()
@@ -57,6 +57,7 @@ print('Proportion:', round(len(df_pos_sample) / len(df_negatives), 2), ': 1')
 #SMOTE
 RANDOM_STATE = 42
 
+print("SMOTE:")
 smote = SMOTE(sampling_strategy='minority', random_state=RANDOM_STATE)
 y = original.pop(class_var).values
 X = original.values
@@ -66,7 +67,6 @@ df_smote.columns = list(original.columns) + [class_var]
 df_smote.to_csv('../data/balancing/NYC_collisions_train_SMOTEsampling.csv', index=False)
 
 smote_target_count = Series(smote_y).value_counts()
-print("SMOTE:")
 values['SMOTE'] = [smote_target_count[positive_class], smote_target_count[negative_class]]
 print('Minority class=', positive_class, ':', smote_target_count[positive_class])
 print('Majority class=', negative_class, ':', smote_target_count[negative_class])
