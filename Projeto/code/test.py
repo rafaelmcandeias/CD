@@ -11,9 +11,9 @@ from pandas.plotting import register_matplotlib_converters
 
 # ------------- FIRST DATASET --------------------------------
 register_matplotlib_converters()
-filepath = '../../data/firstDataset/NYC_collisions_tabular.csv'
-data = read_csv(filepath, index_col='UNIQUE_ID', na_values='', parse_dates=True, infer_datetime_format=True)
-df = data
+filepath = '../../data/firstDataset/NYC_collisions_tabular_no_mvs.csv'
+data = read_csv(filepath, na_values='', parse_dates=True, infer_datetime_format=True)
+df = pd.DataFrame(data)
 
 
 # ------------- INFO ------------------------------------------
@@ -44,15 +44,13 @@ df = data
 
 
 # -- PEDESTRIAN AND OCCUPANT HAVE MV AND VALUES IN EJECTION ---
-#e = df['EJECTION'].values.tolist()
-#pt = df['PERSON_TYPE'].values.tolist()
-#count_p, count_o = 0, 0
-#for i in range(len(e)):
-#    if pd.isnull(e[i]) and pt[i] == 'Pedestrian':
-#        count_p += 1
-#    if pd.isnull(e[i]) and pt[i] == 'Occupant':
-#        count_o += 1
-#print(count_p, count_o)
+e = df['EJECTION'].values.tolist()
+pt = df['PERSON_TYPE'].values.tolist()
+types = set()
+for i in range(len(e)):
+    if pd.isnull(e[i]):
+        types.add(pt[i])
+print(types)
 
 
 # ------------- PERSON_TYPES COM MV EM POSITION_IN_VEHICLE ----
