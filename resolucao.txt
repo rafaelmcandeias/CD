@@ -1,0 +1,143 @@
+
+* INFO
+    Missing values strategies:
+    "Outliers data points will have a significant impact on the mean and hence, in such cases, 
+     it is not recommended to use the mean for replacing the missing values."
+    "For symmetric data distribution, one can use the mean"
+    "Dropping variables if they have a lot of missing variables"
+
+
+* FIRST DATASET
+    - UNIQUE_ID         usado como index
+    - PERSON_INJURY     target
+    
+    Missing values filling:
+        - var: PERSON_AGE mv: 421               Mediana pq tem mtos outliers 
+        - var: SAFETY_EQUIPMENT mv: 6235        Dá se o valor mais frequente no bodily_injury do registo 
+        - var: EJECTION mv: 6240                Há 6190 mv para Pedestrians, mas 225 com values. Como há uma grande diferença
+                                                e EJECTION nao faz mt sentido para pedestrian, todo os values sao ignorados.
+                                                Há apenas 50 mv para Occupants. Utilizamos most_frequent.
+                                                Os outros PERSON_TYPE nao tem mv.
+        - var: VEHICLE_ID mv: 6571              Todos os Pedestrians têm mv. Aplica-se a constante na a todos.
+                                                Há 156 mv para Occupants. Usar o VEHICLE_ID que estiver noutro registo
+                                                com o mesmo COLLISION_ID. Mesmo aplicando esta técnica, apenas reduziriamos
+                                                os mv para 141. Media nao pq VEHICLE_ID nao tem decimas. 
+                                                Mediana tambem nao. Simplesmente fazer o most_frequent.
+        - var: POSITION_IN_VEHICLE mv: 6221     Há 6147 mv para Pedestrians, mas 241 têm value. Como há uma grande diferença
+                                                e POSITION_IN_VEHICLE nao faz sentido para Pedestrians, todos os values sao
+                                                ignorados. 
+                                                Há 47 mv para os Occupants. Symbolic, por isso most_frequent
+        - var: CONTRIBUTING_FACTOR_2 mv: 39123  Nao é agrupada com a 1, visto que há 135 casos onde uma tem um fator x, 
+                                                nao unspecified, e a outra um fator y, tambem nao unspecified. 
+                                                Nao ha maneira de priorizar e evitamos perda de info. 
+                                                Onde uma tiver unspecified fica com o valor da outra. Se ambas tiverem 
+                                                unspecified, fica o most_frequent da sua coluna.
+        - var: CONTRIBUTING_FACTOR_1 mv: 39111  Nao é agrupada com a 2, visto que há 135 casos onde uma tem um fator x, 
+                                                nao unspecified, e a outra um fator y, tambem nao unspecified. 
+                                                Nao ha maneira de priorizar e evitamos perda de info. 
+                                                Onde uma tiver unspecified fica com o valor da outra. Se ambas tiverem 
+                                                unspecified, fica o most_frequent da sua coluna.
+        - var: PED_LOCATION mv: 39098           Só não existem missing values para Pedestrian. Contudo existem values para
+                                                Pedestrians e Occupants, que são ({'Pedestrian/Bicyclist/Other Pedestrian 
+                                                at Intersection', 'Does Not Apply', 'Pedestrian/Bicyclist/Other Pedestrian 
+                                                Not at Intersection', 'Unknown'}), mas Occupants nao deveriam ter valores.
+                                                Assim, pôr todos os values para os que nao sao pedestrian a nan.
+        - var: PED_ACTION mv: 39098             Só existem missing values para Byciclist, Other Motorized e Occupant.
+                                                Faz sentido, não deviam tê-los. Mas Occupant tem alguns values. Por todos os
+                                                Occupant a nan.  
+    
+    Nothing to do:
+        - var: CRASH TIME               Nao tem missing values. hora mais segura -> 16:00. hora mais perigosa -> 00:00
+        - var: PED_LOCATION mv: 39098   Nao ha missing values para Pedestrians
+    
+    Dummification:
+        - var: BODILY_INJURY            Tem 14 valores possives.
+                                        Nao Dummification, se nao acrescentariamos 13 colunas ao dataset.
+        - var: SAFETY_EQUIPMENT         Tem 17 valores possives.
+                                        Nao Dummification, se nao acrescentariamos 16 colunas ao dataset.
+        - var: PERSON_SEX               Tem 3 valores possiveis e nao sao ordinais. Dummification
+        - var: PERSON_TYPE              Tem 4 valores possiveis e nao sao ordinais. Dummification
+        - var: PED_LOCATION             Tem 5 valores possiveis e nao sao ordinais. Dummification
+        - var: CONTRIBUTING_FACTOR_2    Tem 39 valores possives.
+                                        Nao Dummification, se nao acrescentariamos 38 colunas ao dataset.
+        - var: CONTRIBUTING_FACTOR_1    Tem 39 valores possives.
+                                        Nao Dummification, se nao acrescentariamos 38 colunas ao dataset.
+        - var: EJECTION                 Tem 4 valores possiveis e nao sao ordinais. Dummification
+        - var: COMPLAINT                Tem 19 valores possives.
+                                        Nao Dummification, se nao acrescentariamos 18 colunas ao dataset.
+        - var: EMOTIONAL_STATUS         Tem 8 valores possives.
+                                        Nao Dummification, se nao acrescentariamos 7 colunas ao dataset.
+        - var: POSITION_IN_VEHICLE      Tem 10 valores possives.
+                                        Nao Dummification, se nao acrescentariamos 9 colunas ao dataset.
+        - var: PED_ROLE                 Tem 5 valores possives e nao sao ordinais. Dummification
+        - var: PED_ACTION               Tem 17 valores possives.
+                                        Nao Dummification, se nao acrescentariamos 16 colunas ao dataset.
+                                        Nao Dummification, se nao acrescentariamos 9 colunas ao dataset
+        - var: PERSON_ID                Tem mts valores possives. tem que se passar pra int
+    
+    Balancing:
+        undersampling:      Não pq dataset fica mt pequeno, 
+        oversampling:       Mais accurate, Ver se dá overfitting
+        SMOTE:              ver overfitting
+    
+    Scalling:
+        minmax:         Valores encontrados em novos registo que nao estão dentro dos limites dão erro
+        zscore:         Evita erros na presença de valores nao observados
+    
+    Modelo:
+        knn:
+        Naive Bayes:
+
+    Feature Selection:
+        Remove:
+        - CRASH DATE        Removido por não ter efeito no algoritmo
+        - COLLISION_ID      Removido por não ter efeito no algoritmo -> HA REPETIDOS
+
+--------------------------------------------------------------------------------------------------------------------
+
+* SECOND DATASET
+    - Data, FID     usado como index
+    - ALARM         target
+    
+    Feature Selection:
+        Remove
+        - date
+        - City_EN
+        - Prov_EN
+
+    Missing values drop:
+        nenhuma variavel apresenta um numero astronomico de missing values que justifique o seu drop
+
+    Missing values:
+        - var: Field_1 mv: 17062        Sem outliers. Média
+        - var: CO_Mean mv: 7778         Varios outliers. Mediana
+        - var: CO_Min mv: 7778          Varios outliers. Mediana
+        - var: CO_Max mv: 7777          Não ha tantos outliers. Média
+        - var: CO_Std mv: 7778          Não ha tantos outliers. Média
+        - var: NO2_Mean mv: 7702        Varios outliers. Mediana
+        - var: NO2_Min mv: 7702         Varios outliers. Mediana
+        - var: NO2_Max mv: 7701         Varios outliers. Mediana
+        - var: NO2_Std mv: 7702         Varios outliers. Mediana
+        - var: O3_Mean mv: 7745         Varios outliers. Mediana   
+        - var: O3_Min mv: 7745          Varios outliers. Mediana
+        - var: O3_Max mv: 7744          Varios outliers. Mediana
+        - var: O3_Std mv: 7745          Varios outliers. Mediana
+        - var: PM2.5_Mean mv: 7687      Não ha tantos outliers. Média
+        - var: PM2.5_Min mv: 7687       Não ha tantos outliers. Média
+        - var: PM2.5_Max mv: 7686       Não ha tantos outliers. Média
+        - var: PM2.5_Std mv: 7687       Não ha tantos outliers. Média
+        - var: PM10_Mean mv: 7688       Não ha tantos outliers. Média
+        - var: PM10_Min mv: 7688        Não ha tantos outliers. Média
+        - var: PM10_Max mv: 7687        Não ha tantos outliers. Média
+        - var: PM10_Std mv: 7688        Não ha tantos outliers. Média
+        - var: SO2_Mean mv: 7713        Não ha tantos outliers. Média
+        - var: SO2_Min mv: 7713         Varios outliers. Mediana
+        - var: SO2_Max mv: 7712         Não ha tantos outliers. Média
+        - var: SO2_Std mv: 7713         Não ha tantos outliers. Média
+    
+    Nothing to do: 
+
+    Dummification:
+        - var: ALARM                    label pra facilitar modelo de previsao
+    
+    Balancing:
